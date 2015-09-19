@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Web.Http;
+using HtmlAgilityPack;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -97,11 +99,44 @@ namespace xkcd_viewer
         /// </summary>
         /// <param name="e">Provides data for navigation methods and event
         /// handlers that cannot cancel the navigation request.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedTo(e);
-            comicNumber = int.Parse(e.Parameter as String);
-            webView.Navigate(new Uri("http://www.explainxkcd.com/wiki/index.php/" + comicNumber + "#Explanation"));
+            comicNumber = int.Parse(e.Parameter as string);
+            HttpClient client = new HttpClient();
+            string html = await client.GetStringAsync(new Uri("http://www.explainxkcd.com/wiki/index.php/" + comicNumber));
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            HtmlNode bodyDiv = doc.GetElementbyId("mw-content-text");
+            foreach (HtmlNode node in bodyDiv.ChildNodes)
+            {
+                if (!String.IsNullOrWhiteSpace(node.InnerText))
+                {
+                    if (node.Name == "p")
+                    {
+                        TextBlock textBlock = new TextBlock();
+                        textBlock.Style = (Style)Application.Current.Resources["BodyTextBlockStyle"];
+                        textBlock.Text = node.InnerText;
+                        ContentRoot.Children.Add(textBlock);
+                    }
+                    else if (node.Name == "ul")
+                    {
+                        StackPanel panel = new StackPanel();
+                        panel.Margin = new Thickness(10, 0, 0, 0);
+                        foreach(HtmlNode listItem in node.ChildNodes)
+                        {
+                            if (listItem.Name == "li")
+                            {
+                                TextBlock textBlock = new TextBlock();
+                                textBlock.Style = (Style)Application.Current.Resources["BodyTextBlockStyle"];
+                                textBlock.Text = listItem.InnerText;
+                                panel.Children.Add(textBlock);
+                            }
+                        }
+                        ContentRoot.Children.Add(panel);
+                    }
+                }
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
