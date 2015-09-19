@@ -46,6 +46,7 @@ namespace xkcd_viewer
             for (int i = 0; i < pivotBuffer; i++)
             {
                 pivotItems[i] = new PivotItem();
+                pivotItems[i].Margin = new Thickness(0, 0, 0, 0);
                 pivotItems[i].Content = new Grid();
                 pivot.Items.Add(pivotItems[i]);
                 comicPanels[i] = new ComicPanel(this);

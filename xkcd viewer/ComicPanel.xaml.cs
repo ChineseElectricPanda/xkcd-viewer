@@ -56,6 +56,7 @@ namespace xkcd_viewer
             comic = json;
             image.Source = new BitmapImage(new Uri(json.img));
             altText.Text = "Alt Text: " + comic.alt;
+            scrollViewer.Margin = new Thickness(0, 0, 0, altText.ActualHeight);
             foreach (OnComicLoadListener l in onComicLoadListeners)
             {
                 l.OnComicLoaded(json);
