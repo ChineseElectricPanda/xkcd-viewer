@@ -48,7 +48,7 @@ namespace xkcd_viewer
                 pivotItems[i] = new PivotItem();
                 pivotItems[i].Content = new Grid();
                 pivot.Items.Add(pivotItems[i]);
-                comicPanels[i] = new ComicPanel();
+                comicPanels[i] = new ComicPanel(this);
                 comicPanels[i].addOnComicLoadListener(this);
                 ((Grid)pivotItems[i].Content).Children.Add(comicPanels[i]);
             }
@@ -107,6 +107,11 @@ namespace xkcd_viewer
                 }
 
             }
+        }
+
+        private void explainAppBarIcon_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ExplanationPage), currentComic.ToString());
         }
     }
 }

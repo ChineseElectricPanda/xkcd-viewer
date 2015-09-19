@@ -9,9 +9,27 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Pivot x:Name="pivot" Margin="0" SelectionChanged="Pivot_SelectionChanged">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
 
-        </Pivot>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="XKCD VIEWER" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Pivot x:Name="pivot" Margin="0" SelectionChanged="Pivot_SelectionChanged">
+
+            </Pivot>
+        </Grid>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
@@ -32,7 +50,7 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="explainAppBarIcon"
-                    Label="Explain">
+                    Label="Explain" Click="explainAppBarIcon_Click">
                     <AppBarButton.Icon>
                         <BitmapIcon UriSource="Assets/Icons/question.png"/>
                     </AppBarButton.Icon>

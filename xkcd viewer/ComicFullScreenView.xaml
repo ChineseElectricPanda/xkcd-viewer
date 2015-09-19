@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="xkcd_viewer.ComicFullScreenView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:xkcd_viewer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer 
+        x:Name="scrollViewer"
+        ZoomMode="Enabled"
+        MaxZoomFactor="5.0"
+        MinZoomFactor="1.0"
+        Width="400"
+        Height="640"
+        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+        ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <Image
+            x:Name="image"
+            Width="400"
+            Height="640"
+            RenderTransformOrigin="0.5,0.5"
+            VerticalAlignment="Center"/>
+    </ScrollViewer>
+</Page>

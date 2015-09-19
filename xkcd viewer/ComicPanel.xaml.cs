@@ -23,6 +23,7 @@ namespace xkcd_viewer
 {
     public sealed partial class ComicPanel : UserControl
     {
+        private Page context;
         public static async Task<int> getNewestComicNumber()
         {
             HttpClient client = new HttpClient();
@@ -33,8 +34,9 @@ namespace xkcd_viewer
 
         private List<OnComicLoadListener> onComicLoadListeners = new List<OnComicLoadListener>();
         public XkcdJsonObject comic;
-        public ComicPanel()
+        public ComicPanel(Page context)
         {
+            this.context = context;
             this.InitializeComponent();
         }
 
@@ -93,5 +95,10 @@ namespace xkcd_viewer
             }
         }
 
+        private void image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            context.Frame.Navigate(typeof(ComicFullScreenView), comic.img);
+            e.Handled = true;
+        }
     }
 }

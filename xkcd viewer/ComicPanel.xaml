@@ -20,7 +20,7 @@
             <Image
                 x:Name="image"
                 RenderTransformOrigin="0.5,0.5"
-                Stretch="Uniform" VerticalAlignment="Top"
+                Stretch="Uniform" VerticalAlignment="Top" DoubleTapped="image_DoubleTapped"
                 />
         </ScrollViewer>
         <TextBlock x:Name="altText" TextWrapping="Wrap" Text="Alt Text" VerticalAlignment="Bottom" FontSize="14.667"/>
