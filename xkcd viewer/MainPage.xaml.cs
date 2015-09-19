@@ -114,5 +114,12 @@ namespace xkcd_viewer
         {
             Frame.Navigate(typeof(ExplanationPage), currentComic.ToString());
         }
+
+        private void altTextAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var comic = comicPanels[currentPanel].comic;
+            var dialog = new MessageDialog(comic.alt,comic.num+" - "+comic.title);
+            dialog.ShowAsync();
+        }
     }
 }

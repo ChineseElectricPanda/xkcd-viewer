@@ -35,10 +35,10 @@
         <CommandBar>
             <CommandBar.PrimaryCommands>
                 <AppBarButton
-                    x:Name="searchAppBarButton"
-                    Label="Search">
+                    x:Name="altTextAppBarButton"
+                    Label="Alt Text" Click="altTextAppBarButton_Click">
                     <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Icons/magnify.png"/>
+                        <BitmapIcon UriSource="Assets/Icons/alt.png"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton

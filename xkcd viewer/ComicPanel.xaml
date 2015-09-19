@@ -16,7 +16,7 @@
             Width="400"
             Height="600"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,0,0,18">
+            ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <Image
                 x:Name="image"
                 Width="400"
@@ -24,7 +24,5 @@
                 RenderTransformOrigin="0.5,0.5"
                 Stretch="Uniform" VerticalAlignment="Top" DoubleTapped="image_DoubleTapped"/>
         </ScrollViewer>
-        <TextBlock x:Name="altText" TextWrapping="Wrap" Text="Alt Text" VerticalAlignment="Bottom" FontSize="14"/>
-
     </Grid>
 </UserControl>
