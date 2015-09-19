@@ -25,7 +25,7 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="jumpToAppBarButton"
-                    Label="Jump To">
+                    Label="Jump To" Click="jumpToAppBarButton_Click">
                     <AppBarButton.Icon>
                         <BitmapIcon UriSource="Assets/Icons/right.png"/>
                     </AppBarButton.Icon>

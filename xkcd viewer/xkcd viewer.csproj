@@ -89,6 +89,9 @@
     <Compile Include="ComicPanel.xaml.cs">
       <DependentUpon>ComicPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="JumpToComicDialog.xaml.cs">
+      <DependentUpon>JumpToComicDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="ComicPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JumpToComicDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

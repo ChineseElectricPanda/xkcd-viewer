@@ -31,7 +31,7 @@ namespace xkcd_viewer
             return jsonObject.num;
         }
 
-        private List<OnComicLoadListener> onComicLoadListeners=new List<OnComicLoadListener>();
+        private List<OnComicLoadListener> onComicLoadListeners = new List<OnComicLoadListener>();
         public XkcdJsonObject comic;
         public ComicPanel()
         {
@@ -54,7 +54,7 @@ namespace xkcd_viewer
             comic = json;
             image.Source = new BitmapImage(new Uri(json.img));
             altText.Text = "Alt Text: " + comic.alt;
-            foreach(OnComicLoadListener l in onComicLoadListeners)
+            foreach (OnComicLoadListener l in onComicLoadListeners)
             {
                 l.OnComicLoaded(json);
             }
@@ -63,12 +63,12 @@ namespace xkcd_viewer
         private async Task<XkcdJsonObject> getComicJson(int number)
         {
             HttpClient client = new HttpClient();
-            string response = await client.GetStringAsync(new Uri("http://www.xkcd.com/"+number+"/info.0.json"));
+            string response = await client.GetStringAsync(new Uri("http://www.xkcd.com/" + number + "/info.0.json"));
             XkcdJsonObject jsonObject = JsonConvert.DeserializeObject<XkcdJsonObject>(response);
             return jsonObject;
         }
 
-        
+
 
         private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -87,8 +87,9 @@ namespace xkcd_viewer
         {
             set
             {
-                if (comic == null || comic.num != value) 
-                    loadComic(value);
+                if (comic == null || comic.num != value)
+                    if (value > 0 && value <= MainPage.newestComic && value != 404)
+                        loadComic(value);
             }
         }
 

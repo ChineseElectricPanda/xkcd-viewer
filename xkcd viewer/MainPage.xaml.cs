@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,14 +25,14 @@ namespace xkcd_viewer
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page , OnComicLoadListener
+    public sealed partial class MainPage : Page, OnComicLoadListener
     {
         const int pivotBuffer = 10;
-        PivotItem[] pivotItems=new PivotItem[pivotBuffer];
-        ComicPanel[] comicPanels=new ComicPanel[pivotBuffer];
-        int currentPanel=0;
-        int newestComic = 1;
-        int currentComic;
+        public static int newestComic = 1;
+        PivotItem[] pivotItems = new PivotItem[pivotBuffer];
+        ComicPanel[] comicPanels = new ComicPanel[pivotBuffer];
+        int currentPanel = 0;
+        int currentComic = 1;
         public MainPage()
         {
             this.InitializeComponent();
@@ -41,8 +42,8 @@ namespace xkcd_viewer
             currentComicTask.Wait();
             newestComic = currentComicTask.Result;
             currentComic = 500;
-            
-            for(int i = 0; i < pivotBuffer; i++)
+
+            for (int i = 0; i < pivotBuffer; i++)
             {
                 pivotItems[i] = new PivotItem();
                 pivotItems[i].Content = new Grid();
@@ -55,9 +56,9 @@ namespace xkcd_viewer
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (currentPanel == 0 && pivot.SelectedIndex == pivotBuffer-1)
+            if (currentPanel == 0 && pivot.SelectedIndex == pivotBuffer - 1)
                 currentComic--;
-            else if (currentPanel == pivotBuffer-1 && pivot.SelectedIndex == 0)
+            else if (currentPanel == pivotBuffer - 1 && pivot.SelectedIndex == 0)
                 currentComic++;
             else if (currentPanel < pivot.SelectedIndex)
                 currentComic++;
@@ -73,23 +74,38 @@ namespace xkcd_viewer
             int currentPosition = pivot.SelectedIndex;
             int previousPosition = (currentPosition - 1);
             if (previousPosition < 0)
-                previousPosition = pivotBuffer-1;
+                previousPosition = pivotBuffer - 1;
 
-            for(int i = 1; i < pivotBuffer - 2; i++)
+            for (int i = 0; i < pivotBuffer - 2; i++)
             {
-                comicPanels[(currentComic + i) % pivotBuffer].Number = currentComic + i;
+                comicPanels[(currentPosition + i) % pivotBuffer].Number = currentComic + i;
             }
             comicPanels[previousPosition].Number = currentComic - 1;
         }
 
         public void OnComicLoaded(XkcdJsonObject comicJson)
         {
-            for(int i = 0; i < pivotBuffer; i++)
+            for (int i = 0; i < pivotBuffer; i++)
             {
                 if (comicPanels[i].comic == comicJson)
                 {
                     pivotItems[i].Header = comicJson.title;
                 }
+            }
+        }
+
+        private async void jumpToAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new JumpToComicDialog();
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                if (dialog.SelectedComic != 0)
+                {
+                    currentComic = dialog.SelectedComic;
+                    updateComicPanels();
+                }
+
             }
         }
     }
