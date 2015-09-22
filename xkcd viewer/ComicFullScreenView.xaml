@@ -16,7 +16,7 @@
         Width="400"
         Height="640"
         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-        ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        ScrollViewer.VerticalScrollBarVisibility="Hidden" DoubleTapped="scrollViewer_DoubleTapped">
         <Image
             x:Name="image"
             Width="400"

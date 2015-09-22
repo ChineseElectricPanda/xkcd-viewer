@@ -109,5 +109,10 @@ namespace xkcd_viewer
         }
 
         #endregion
+
+        private void scrollViewer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            this.navigationHelper.GoBack();
+        }
     }
 }
