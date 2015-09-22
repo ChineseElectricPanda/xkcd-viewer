@@ -89,8 +89,13 @@ namespace xkcd_viewer
             set
             {
                 if (comic == null || comic.num != value)
-                    if (value > 0 && value <= MainPage.newestComic && value != 404)
-                        loadComic(value);
+                {
+                    if (value < 1)
+                        value = 1;
+                    if (value > MainPage.newestComic)
+                        value = MainPage.newestComic;
+                    loadComic(value);
+                }
             }
         }
 

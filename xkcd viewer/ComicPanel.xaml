@@ -14,13 +14,14 @@
             MaxZoomFactor="5.0"
             MinZoomFactor="1.0"
             Width="400"
-            Height="600"
+            Height="400"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            VerticalAlignment="Top">
             <Image
                 x:Name="image"
                 Width="400"
-                Height="600"
+                Height="400"
                 RenderTransformOrigin="0.5,0.5"
                 Stretch="Uniform" VerticalAlignment="Top" DoubleTapped="image_DoubleTapped"/>
         </ScrollViewer>

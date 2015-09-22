@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,7 +43,7 @@ namespace xkcd_viewer
             Task<int> currentComicTask = ComicPanel.getNewestComicNumber();
             currentComicTask.Wait();
             newestComic = currentComicTask.Result;
-            currentComic = 500;
+            currentComic = newestComic;
 
             for (int i = 0; i < pivotBuffer; i++)
             {
@@ -53,6 +55,7 @@ namespace xkcd_viewer
                 comicPanels[i].addOnComicLoadListener(this);
                 ((Grid)pivotItems[i].Content).Children.Add(comicPanels[i]);
             }
+            
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,6 +68,10 @@ namespace xkcd_viewer
                 currentComic++;
             else if (currentPanel > pivot.SelectedIndex)
                 currentComic--;
+            if (currentComic < 1)
+                currentComic = 1;
+            if (currentComic > newestComic)
+                currentComic = newestComic;
             currentPanel = pivot.SelectedIndex;
             comicPanels[currentPanel].OnNavigatedTo();
             updateComicPanels();
