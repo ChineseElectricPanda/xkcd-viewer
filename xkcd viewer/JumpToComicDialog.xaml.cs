@@ -40,7 +40,7 @@ namespace xkcd_viewer
             try
             {
                 selection = int.Parse(number.Text);
-                if (selection > 0 && selection <= MainPage.newestComic && selection != 404)
+                if (selection > 0 && selection <= MainPage.newestComic)
                     canClose = true;
                 else
                     throw new OverflowException();

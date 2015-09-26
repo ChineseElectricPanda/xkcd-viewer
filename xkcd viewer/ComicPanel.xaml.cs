@@ -52,24 +52,50 @@ namespace xkcd_viewer
 
         private async void loadComic(int number)
         {
-            XkcdJsonObject json = await getComicJson(number);
-            comic = json;
-            image.Source = new BitmapImage(new Uri(json.img));
+            comic = await getComicJson(number);
+            if (comic != null)
+            {
+                image.Source = new BitmapImage(new Uri(comic.img));
+                scrollViewer.Visibility = Visibility.Visible;
+                loadFailedPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                loadFailed(number);
+            }
             foreach (OnComicLoadListener l in onComicLoadListeners)
             {
-                l.OnComicLoaded(json);
+                l.OnComicLoaded(comic);
             }
+        }
+
+        private void loadFailed(int num)
+        {
+            scrollViewer.Visibility = Visibility.Collapsed;
+            loadFailedPanel.Visibility = Visibility.Visible;
+            loadFailedText.Text = "Could not load comic " + num;
+            comic = new XkcdJsonObject
+            {
+                num = num,
+                title = num+" not found",
+                alt = "",
+                img = ""
+            };
         }
 
         private async Task<XkcdJsonObject> getComicJson(int number)
         {
-            HttpClient client = new HttpClient();
-            string response = await client.GetStringAsync(new Uri("http://www.xkcd.com/" + number + "/info.0.json"));
-            XkcdJsonObject jsonObject = JsonConvert.DeserializeObject<XkcdJsonObject>(response);
-            return jsonObject;
+            try {
+                HttpClient client = new HttpClient();
+                string response = await client.GetStringAsync(new Uri("http://www.xkcd.com/" + number + "/info.0.json"));
+                XkcdJsonObject jsonObject = JsonConvert.DeserializeObject<XkcdJsonObject>(response);
+                return jsonObject;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
-
-
 
         private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -103,6 +129,13 @@ namespace xkcd_viewer
         {
             context.Frame.Navigate(typeof(ComicFullScreenView), comic.img);
             e.Handled = true;
+        }
+
+        private void reloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            loadFailedPanel.Visibility = Visibility.Collapsed;
+            Number = comic.num;
+
         }
     }
 }

@@ -8,6 +8,16 @@
     mc:Ignorable="d">
 
     <Grid>
+        <StackPanel
+            x:Name="loadFailedPanel"
+            HorizontalAlignment="center"
+            Visibility="Collapsed">
+            <TextBlock
+                x:Name="loadFailedText"/>
+            <Button
+                x:Name="reloadButton"
+                Content="Reload" Click="reloadButton_Click"/>
+        </StackPanel>
         <ScrollViewer 
             x:Name="scrollViewer"
             ZoomMode="Enabled"
