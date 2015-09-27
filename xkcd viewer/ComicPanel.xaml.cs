@@ -134,7 +134,7 @@ namespace xkcd_viewer
         private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
             loadFailedPanel.Visibility = Visibility.Collapsed;
-            Number = comic.num;
+            loadComic(comic.num);
 
         }
     }
